@@ -8,6 +8,7 @@ import routes from './routes';
 import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+// if we persist state from a server, we can pass the parameter to the below configStore function
 const store = configureStore();
 
 render(
