@@ -1,9 +1,9 @@
-// import * as type from '../common/actionTypes';
+import * as actions from '../actions/actionTypes';
 
 export function createCourse(course) {
-    return { type: 'CREATE_COURSE', course };
+    return { type: actions.CREATE_COURSE, course };
 }
 
 export function deleteCourse(courseId) {
-    return { type: 'DELETE_COURSE', courseId };
+    return { type: actions.DELETE_COURSE, courseId };
 }
