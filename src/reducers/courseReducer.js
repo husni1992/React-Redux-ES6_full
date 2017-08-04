@@ -7,6 +7,9 @@ export default function courseReducer(state = [], action) {
                 ...state,
                 Object.assign({}, action.course)
             ];
+        case actions.EDIT_COURSE:
+            // let course = state.filter(el => el.title === action.courseId);
+            return state;
         case actions.DELETE_COURSE:
             return state.filter(el => el.title !== action.courseId);
         default:
