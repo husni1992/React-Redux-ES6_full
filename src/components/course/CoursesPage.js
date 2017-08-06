@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
+import counterAction from '../../actions/counterActions';
 
 class CoursePage extends React.Component {
     constructor(props, context) {
@@ -13,8 +14,12 @@ class CoursePage extends React.Component {
 
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onClickSave = this.onClickSave.bind(this);
-        this.deleteCourse = this.deleteCourse.bind(this);
+        // this.deleteCourse = this.deleteCourse.bind(this);
         this.courseRow = this.courseRow.bind(this);
+    }
+
+    shouldComponentUpdate() {
+        return this.props.courses.length < 30;
     }
 
     onTitleChange(event) {
@@ -25,8 +30,14 @@ class CoursePage extends React.Component {
 
     onClickSave(e) {
         this.props.actions.createCourse(this.state.course);
-        let newCount = this.props.students.count + 1;
+
+        let newCount = this.props.counter.count + 1;
         // this.props.dispatch({ type: 'UPDATE_STUDENT', count: newCount });
+        this.props.counterAction(newCount);
+
+        // if we dont define mapDispatchToProps(), this is the pattern we write
+        //this.props.dispatch(courseActions.createCourse(this.state.course));
+
         e.preventDefault();
         this.setState({ course: { title: "" } });
     }
@@ -37,12 +48,8 @@ class CoursePage extends React.Component {
 
     courseRow(course, index) {
         return <div key={index}>{course.title}
-            <span className="btn btn-danger" onClick={() => { this.deleteCourse(course.title) }}>X</span>
+            <span className="btn btn-danger" onClick={ () => this.deleteCourse(course.title) }>X</span>
         </div>;
-    }
-
-    shouldComponentUpdate() {
-        return this.props.courses.length < 30;
     }
 
     render() {
@@ -71,14 +78,16 @@ class CoursePage extends React.Component {
 
 CoursePage.propTypes = {
     courses: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    counter: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    counterAction: PropTypes.func.isRequired
 };
 
 // this listens and renders when the given state is changed
 function mapStateToProps(state, ownProps) {
     return {
         courses: state.courses,
-        students: state.students
+        counter: state.counter
     };
 }
 
@@ -87,8 +96,9 @@ function mapDispatchToProps(dispatch) {
         // createCourse: course => dispatch(courseActions.createCourse(course)),
         // deleteCourse: courseId => dispatch(courseActions.deleteCourse(courseId)),
         // use below pattern to bind all course actions to this.props.actions object
-        actions: bindActionCreators(courseActions, dispatch)
-    }
+        actions: bindActionCreators(courseActions, dispatch),
+        counterAction: bindActionCreators(counterAction, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursePage);

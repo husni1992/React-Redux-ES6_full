@@ -14,16 +14,15 @@ class ContainerTest extends React.Component {
         console.info('Updated count');
         return (
             <div>
-                Updated: {this.props.students.count} times
+                Updated: {this.props.counter.count} times
             </div>
         );
     }
 }
 
 function mapStateToProps(state, ownProps) {
-    debugger
     return {
-        students: state.students
+        counter: state.counter
     };
 }
 
