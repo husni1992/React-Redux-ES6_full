@@ -29,8 +29,6 @@ class CoursePage extends React.Component {
     }
 }
 
-
-
 CoursePage.propTypes = {
     courses: PropTypes.array.isRequired,
     counter: PropTypes.object.isRequired,

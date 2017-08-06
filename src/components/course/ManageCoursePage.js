@@ -1,53 +1,59 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as courseActions from '../../actions/courseActions';
+import CourseForm from './CourseForm';
 
-class ManageCoursePage extends React.component {
+class ManageCoursePage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            course: { title: "" }
-        };
-
-
-        this.onTitleChange = this.onTitleChange.bind(this);
-        this.onClickSave = this.onClickSave.bind(this);
+            course: Object.assign({}, props.course),
+            errors: {}
+        }
     }
 
-    onTitleChange(event) {
-        const course = this.state.course;
-        course.title = event.target.value;
-        this.setState({ course: course });
+    onCourseSave() {
+
     }
 
-    onClickSave(e) {
-        this.props.actions.createCourse(this.state.course);
-
-        let newCount = this.props.counter.count + 1;
-        // this.props.dispatch({ type: 'UPDATE_STUDENT', count: newCount });
-        this.props.counterAction(newCount);
-
-        // if we dont define mapDispatchToProps(), this is the pattern we write
-        //this.props.dispatch(courseActions.createCourse(this.state.course));
-
-        e.preventDefault();
-        this.setState({ course: { title: "" } });
+    onCourseChange() {
+        console.log('change');
     }
 
     render() {
         return (
-            <form onSubmit={this.onClickSave}>
-                <h2>Add Course</h2>
-                <input
-                    type="text"
-                    onChange={this.onTitleChange}
-                    value={this.state.course.title} />
-
-                <input
-                    type="submit"
-                    value="Save"
-                    onClick={this.onClickSave} />
-            </form>
+            <div>
+                <h1>Manage Course</h1>
+                <CourseForm
+                    allAuthors={[]}
+                    course={this.state.course}
+                    errors={this.state.errors}
+                    onSave={this.onCourseSave}
+                    onChange={this.onCourseChange}
+                />
+            </div>
         )
     }
 
 }
+
+ManageCoursePage.propTypes = {
+    course: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+    let course = { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' };
+    return {
+        course
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(courseActions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
