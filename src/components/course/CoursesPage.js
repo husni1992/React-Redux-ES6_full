@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import counterAction from '../../actions/counterActions';
+import CourseList from './CourseList';
 
 class CoursePage extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        // this.deleteCourse = this.deleteCourse.bind(this);
-        this.courseRow = this.courseRow.bind(this);
     }
 
     shouldComponentUpdate() {
@@ -20,18 +18,12 @@ class CoursePage extends React.Component {
         this.props.actions.deleteCourse(courseId);
     }
 
-    courseRow(course, index) {
-        return <div key={index}>{course.title}
-            <span className="btn btn-danger" onClick={() => this.deleteCourse(course.title)}>X</span>
-        </div>;
-    }
-
     render() {
+        const {courses} = this.props;
         return (
             <div>
                 <h1>Courses</h1>
-                {this.props.courses.map(this.courseRow)}
-
+                <CourseList courses={courses} />
             </div>
         );
     }
