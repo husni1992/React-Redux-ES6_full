@@ -12,14 +12,19 @@ class ManageCoursePage extends React.Component {
             course: Object.assign({}, props.course),
             errors: {}
         };
+
+        this.updateCourseChange = this.updateCourseState.bind(this);
     }
 
     onCourseSave() {
 
     }
 
-    onCourseChange() {
-
+    updateCourseState(event) {
+        const field = event.target.name;
+        let course = Object.assign({}, this.state.course);
+        course[field] = event.target.value;
+        return this.setState({ course: course });
     }
 
     render() {
@@ -31,7 +36,7 @@ class ManageCoursePage extends React.Component {
                     course={this.state.course}
                     errors={this.state.errors}
                     onSave={this.onCourseSave}
-                    onChange={this.onCourseChange}
+                    onChange={this.updateCourseState}
                 />
             </div>
         );
