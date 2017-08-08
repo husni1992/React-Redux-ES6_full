@@ -1,26 +1,33 @@
-import * as actions from '../actions/actionTypes';
+import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
 export default function courseReducer(state = initialState.courses, action) {
     switch (action.type) {
 
-        case actions.LOAD_COURSES_SUCCESS:
+        case types.LOAD_COURSES_SUCCESS:
             return action.courses;
 
-        case actions.CREATE_COURSE:
+        case types.CREATE_COURSE_SUCCESS:
             return [
                 ...state,
                 Object.assign({}, action.course)
             ];
 
-        case actions.EDIT_COURSE:
-            // let course = state.filter(el => el.title === action.courseId);
-            return state;
+        case types.UPDATE_COURSE_SUCCESS:
+            return [
+                ...state.filter(course => course.id !== action.course.id),
+                Object.assign({}, action.course)
+            ];
 
-        case actions.DELETE_COURSE:
-            return state.filter(el => el.title !== action.courseId);
-            
         default:
             return state;
     }
 }
+
+/*
+Immutable uses these 4 js stuff:
+    ...state : destructuring
+    array.map 
+    array.filter
+    Object.assign({}, course)
+    */

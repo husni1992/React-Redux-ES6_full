@@ -13,11 +13,14 @@ class ManageCoursePage extends React.Component {
             errors: {}
         };
 
-        this.updateCourseChange = this.updateCourseState.bind(this);
+        this.updateCourseState = this.updateCourseState.bind(this);
+        this.saveCourse = this.saveCourse.bind(this);
     }
 
-    onCourseSave() {
-
+    saveCourse(event) {
+        event.preventDefault();
+        this.props.actions.saveCourse(this.state.course);
+        this.context.router.push('/courses');
     }
 
     updateCourseState(event) {
@@ -35,7 +38,7 @@ class ManageCoursePage extends React.Component {
                     allAuthors={this.props.authors}
                     course={this.state.course}
                     errors={this.state.errors}
-                    onSave={this.onCourseSave}
+                    onSave={this.saveCourse}
                     onChange={this.updateCourseState}
                 />
             </div>
@@ -46,7 +49,13 @@ class ManageCoursePage extends React.Component {
 
 ManageCoursePage.propTypes = {
     course: PropTypes.object.isRequired,
-    authors: PropTypes.array.isRequired
+    authors: PropTypes.array.isRequired,
+    actions: PropTypes.func
+};
+
+// Add type for React Router context so router is available on this.context.router
+ManageCoursePage.contextTypes = {
+    router: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
