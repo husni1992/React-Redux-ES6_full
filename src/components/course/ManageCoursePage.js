@@ -50,7 +50,7 @@ class ManageCoursePage extends React.Component {
 ManageCoursePage.propTypes = {
     course: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
-    actions: PropTypes.func
+    actions: PropTypes.object
 };
 
 // Add type for React Router context so router is available on this.context.router
